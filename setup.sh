@@ -67,7 +67,9 @@ else
 fi
 
 echo "starting minikube..."
-minikube start
+minikube start --driver=virtualbox
+
+minikube status
 
 kubectl get po -A
 
