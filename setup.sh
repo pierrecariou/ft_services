@@ -11,6 +11,8 @@ echo -e "$BOLD
 
 sudo apt-get update
 
+#Downolading kubernetes's setup
+
 if ! command -v curl > /dev/null
 then
 	echo "Downloading curl..."
@@ -22,12 +24,6 @@ then
 	echo "Downloading snap..."
 	sudo apt-get install snap
 fi
-
-#if ! command -v docker > /dev/null
-#then
-#	echo "Downloading docker..."
-#	sudo apt-get install docker
-#fi
 
 if ! grep -E --color 'vmx|svm' /proc/cpuinfo > /dev/null
 then
@@ -47,35 +43,39 @@ then
 	snap install kubectl --classic
 fi
 
-if ! command -v minikube > /dev/null
-then
-	echo "Downloading minikube..."
- 	curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-	sudo install minikube-linux-amd64 /usr/local/bin/minikube
-elif minikube status > /dev/null
-then
-	minikube stop
-	minikube delete --all
-	echo "relaunching minikube..."
-else
-	echo "starting minikube..."
-fi
+running_minikube()	{
+	if ! command -v minikube > /dev/null
+	then
+		echo "Downloading minikube..."
+ 		curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+		sudo install minikube-linux-amd64 /usr/local/bin/minikube
+	fi
+	minikube status > /dev/null
+	if [ "$?" -ne "85" ]
+	then
+		minikube stop
+		minikube delete --all
+		echo "relaunching minikube..."
+	else
+		echo "starting minikube..."
+	fi
+	minikube start --driver=virtualbox
+}
 
-minikube start --driver=virtualbox
-
-#minikube status
-
-#kubectl get po -A
+running_minikube
 
 #point your shell to minikube's docker daemon
 eval $(minikube docker-env)
 
-docker build -t test srcs/.
-kubectl run test --image=test --image-pull-policy=Never
+build_and_deploy()	{
+	docker build -t $1 srcs/deployments/$1/.
+	kubectl apply -f srcs/deployments/$1/$1.yaml
+}
 
+build_and_deploy wordpress
 
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
+#kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
+#kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
 
 #cat srcs/metallab.yaml | kubectl create -f -
 #minikube dashboard
