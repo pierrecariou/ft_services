@@ -68,8 +68,9 @@ running_minikube
 eval $(minikube docker-env)
 
 build_and_deploy()	{
-	docker build -t $1 srcs/deployments/$1/.
-	kubectl apply -f srcs/deployments/$1/$1.yaml
+	docker build -t $1 srcs/$1/.
+	kubectl apply -f srcs/$1/$1-deployment.yaml
+	kubectl apply -f srcs/$1/$1-service.yaml
 }
 
 build_and_deploy wordpress
