@@ -50,8 +50,8 @@ running_minikube()	{
  		curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 		sudo install minikube-linux-amd64 /usr/local/bin/minikube
 	fi
-	minikube status > /dev/null
-	if [ "$?" -ne "85" ]
+	minikube status > /dev/null 2> /dev/null
+	if [[ "$?" -ne "85" && "$?" -ne "7" ]]
 	then
 		minikube stop
 		minikube delete --all
@@ -64,6 +64,15 @@ running_minikube()	{
 
 running_minikube
 
+metallb_setup()	{
+	kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
+	kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
+	kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+	cat srcs/metallab.yaml | kubectl create -f -
+}
+
+metallb_setup
+
 #point your shell to minikube's docker daemon
 eval $(minikube docker-env)
 
@@ -75,10 +84,6 @@ build_and_deploy()	{
 
 build_and_deploy wordpress
 
-#kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
-#kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
-
-#cat srcs/metallab.yaml | kubectl create -f -
 #minikube dashboard
 
 exit

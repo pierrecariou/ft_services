@@ -5,7 +5,7 @@ metadata:
   labels:
     app: wordpress
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: wordpress
@@ -18,4 +18,4 @@ spec:
       - name: wordpress
         image: wordpress
         ports:
-        - containerPort: 8080
+        - containerPort: 5050
