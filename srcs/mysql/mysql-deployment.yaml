@@ -17,11 +17,6 @@ spec:
       containers:
       - name: mysql
         image: mysql
+        imagePullPolicy: Never
         ports:
         - containerPort: 3306
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom: 
-            secretKeyRef:
-              name: mysql-secret 
-              key: mysql-root-password

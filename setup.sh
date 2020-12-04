@@ -9,7 +9,7 @@ echo -e "$BOLD
 .  .    . .  .   ..  . .  .    .
 |  | _ _| |_ |\  \/  | |_ |_  _| $NORMAL\n\n\n"
 
-SERVICES=(wordpress mysql)
+SERVICES=(mysql wordpress)
 
 sudo apt-get update
 
@@ -80,10 +80,6 @@ eval $(minikube docker-env)
 
 build_and_deploy()	{
 	docker build -t $1 srcs/$1/.
-	if cat srcs/$1/$1-secret.yaml > /dev/null 2> /dev/null
-	then
-		kubectl apply -f srcs/$1/$1-secret.yaml
-	fi
 	kubectl apply -f srcs/$1/$1-deployment.yaml
 	kubectl apply -f srcs/$1/$1-service.yaml
 }
