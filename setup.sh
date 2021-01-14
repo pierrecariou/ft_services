@@ -9,7 +9,7 @@ echo -e "$BOLD
 .  .    . .  .   ..  . .  .    .
 |  | _ _| |_ |\  \/  | |_ |_  _| $NORMAL\n\n\n"
 
-SERVICES=(mysql wordpress)
+SERVICES=(nginx)
 
 sudo apt-get update
 
@@ -80,8 +80,7 @@ eval $(minikube docker-env)
 
 build_and_deploy()	{
 	docker build -t $1 srcs/$1/.
-	kubectl apply -f srcs/$1/$1-deployment.yaml
-	kubectl apply -f srcs/$1/$1-service.yaml
+	kubectl apply -f srcs/$1/$1.yaml
 }
 
 for i in "${SERVICES[@]}"
