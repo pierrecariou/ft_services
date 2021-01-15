@@ -9,7 +9,7 @@ echo -e "$BOLD
 .  .    . .  .   ..  . .  .    .
 |  | _ _| |_ |\  \/  | |_ |_  _| $NORMAL\n\n\n"
 
-SERVICES=(nginx)
+SERVICES=(nginx mysql wordpress)
 
 sudo apt-get update
 
