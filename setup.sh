@@ -88,6 +88,6 @@ do
 	build_and_deploy $i
 done
 
-#minikube dashboard
+minikube dashboard
 
 exit
