@@ -2,7 +2,7 @@ FROM alpine:3.7
 MAINTAINER pierrecariou <pierrecariou@outlook.fr>
 RUN apk update
 
-RUN apk add wget php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-zlib php7-curl php7-mbstring php7-json php7-session
+RUN apk add wget php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-curl php7-mbstring php7-json php7-session
 
 RUN wget http://wordpress.org/latest.tar.gz
 RUN tar -xzvf latest.tar.gz
