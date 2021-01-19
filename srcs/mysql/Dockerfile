@@ -10,6 +10,7 @@ RUN rc default
 VOLUME ["/sys/fs/cgroup"]
 
 #ADD srcs/my.cnf /etc/mysql/
+ADD srcs/wordpress.sql /
 
 ADD srcs/script.sh /usr/bin/script.sh
 CMD ["/bin/ash", "/usr/bin/script.sh"]
