@@ -11,8 +11,6 @@ echo -e "$BOLD
 
 SERVICES=(nginx mysql wordpress)
 
-sudo apt-get update
-
 #Downolading kubernetes's setup
 
 if ! command -v curl > /dev/null
