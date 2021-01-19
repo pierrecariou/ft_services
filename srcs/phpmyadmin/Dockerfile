@@ -11,6 +11,7 @@ RUN rm phpMyAdmin-5.0.2-all-languages.tar.gz
 RUN mv phpMyAdmin-5.0.2-all-languages/* /www
 RUN chmod -R 777 /www
 #RUN ln -s /usr/share/webapps/phpmyadmin/ /var/www/localhost/htdocs/phpmyadmin
+ADD srcs/config.inc.php /www
 
 RUN apk add nginx
 RUN adduser -D -g 'www' user42
