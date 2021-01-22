@@ -44,6 +44,7 @@ $cfg['Servers'][$i]['AllowNoPassword'] = true;
  */
 
 // No warning on  pmadb tables
+$cfg['PmaAbsoluteUri'] = './';
 $cfg['PmaNoRelation_DisableWarning'] = true;
 
 
