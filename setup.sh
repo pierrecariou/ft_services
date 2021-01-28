@@ -9,7 +9,7 @@ echo -e "$BOLD
 .  .    . .  .   ..  . .  .    .
 |  | _ _| |_ |\  \/  | |_ |_  _| $NORMAL\n\n\n"
 
-SERVICES=(nginx mysql wordpress phpmyadmin ftps)
+SERVICES=(influxdb grafana nginx mysql wordpress phpmyadmin ftps)
 
 #Downolading kubernetes's setup
 

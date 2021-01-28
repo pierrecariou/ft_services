@@ -18,5 +18,9 @@ RUN chmod 700 /etc/nginx/ssl
 RUN apk add openssl
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/localhost.key -out /etc/nginx/ssl/localhost.crt -subj /CN=localhost
 
+RUN apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
+RUN mkdir /etc/telegraf
+ADD srcs/telegraf.conf /etc/telegraf/
+
 ADD srcs/script.sh /usr/bin/script.sh
 CMD ["/bin/ash", "/usr/bin/script.sh"]

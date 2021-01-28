@@ -22,5 +22,9 @@ ADD srcs/nginx.conf /etc/nginx/nginx.conf
 RUN apk add openrc --no-cache
 RUN cd /run;mkdir nginx;touch nginx/nginx.pid
 
+RUN apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
+RUN mkdir /etc/telegraf
+ADD srcs/telegraf.conf /etc/telegraf/
+
 ADD srcs/script.sh /usr/bin/script.sh
 CMD ["/bin/ash", "/usr/bin/script.sh"]
