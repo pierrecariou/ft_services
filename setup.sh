@@ -13,6 +13,8 @@ SERVICES=(influxdb grafana nginx mysql wordpress phpmyadmin ftps)
 
 #Downolading kubernetes's setup
 
+sudo apt-get update
+
 if ! command -v curl > /dev/null
 then
 	echo "Downloading curl..."
@@ -28,10 +30,9 @@ fi
 if ! grep -E --color 'vmx|svm' /proc/cpuinfo > /dev/null
 then
 	echo "You need to authorize virtualization in your bios"
-	exit
-fi
-
-if ! command -v virtualbox > /dev/null
+	echo "Virtualbox will not be used..."
+	echo "you may need to execute this command before a reboot of your system (to be able to use docker driver) : 'sudo usermod -aG docker $(whoami)'"
+elif ! command -v virtualbox > /dev/null
 then
 	echo "Downloading virtualbox..."
 	sudo apt-get install virtualbox-6.1
@@ -59,7 +60,15 @@ running_minikube()	{
 	else
 		echo "starting minikube..."
 	fi
-	minikube start --driver=virtualbox
+	if ! grep -E --color 'vmx|svm' /proc/cpuinfo > /dev/null
+	then
+		sudo chown -R $USER ~/.kube
+		sudo chown -R $USER $HOME/.kube $HOME/.minikube
+		sudo chmod 600 $HOME/.kube/config
+		minikube start --vm-driver=docker
+	else
+		minikube start --driver=virtualbox
+	fi
 }
 
 running_minikube
