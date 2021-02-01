@@ -4,9 +4,9 @@ RUN apk update
 
 RUN apk add wget php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-curl php7-mbstring php7-json php7-session
 
+#Build wordpress
 RUN wget http://wordpress.org/latest.tar.gz
 RUN tar -xzvf latest.tar.gz
-#RUN mv wordpress/* /usr/share/webapps/
 RUN rm latest.tar.gz
 RUN mkdir /www
 RUN mv wordpress/* /www

@@ -104,7 +104,7 @@ build_and_deploy()	{
 		for ((i=0; i<11-$length; i++)){
 			echo -n ' '
 		}
-		echo -n "Success!"
+		echo -n "Done!"
 		echo -e '\U1F917'
 	fi
 	kubectl apply -f srcs/$1/$1.yaml > output.log
